@@ -28,7 +28,6 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "shell-path": "^3.0.0",
     "@types/node": "^18.6.3",
     "@types/rimraf": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
@@ -38,6 +37,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "execa": "^6.1.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4",
     "vitest": "^0.20.3"
@@ -45,5 +45,8 @@
   "prettier": {
     "singleQuote": false,
     "useTabs": false
+  },
+  "dependencies": {
+    "@types/execa": "^2.0.0"
   }
 }

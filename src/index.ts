@@ -1,6 +1,5 @@
 import process from "node:process";
-import { shellPathSync, shellPath } from "shell-path";
-
+import { shellEnv, shellEnvSync } from "./shell-env";
 const getFallback = () =>
   [
     "./node_modules/.bin",
@@ -14,13 +13,13 @@ export function fixPathSync() {
     return;
   }
 
-  process.env.PATH = shellPathSync() || getFallback();
+  process.env.PATH = shellEnvSync()?.PATH || getFallback();
 }
 
 export async function fixPath() {
   if (process.platform === "win32") {
     return;
   }
-  const path = await shellPath();
-  process.env.PATH = path || getFallback();
+  const path = await shellEnv();
+  process.env.PATH = path?.PATH || getFallback();
 }
