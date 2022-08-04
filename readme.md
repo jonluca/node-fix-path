@@ -21,7 +21,7 @@ yarn add node-fix-path
 ## Usage
 
 ```js
-import fixPath from "node-fix-path";
+import { fixPath } from "node-fix-path";
 
 console.log(process.env.PATH);
 //=> '/usr/bin'
