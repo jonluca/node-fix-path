@@ -1,7 +1,10 @@
 import process from "node:process";
-import { execa, execaSync } from "execa";
+import { execFile, execFileSync } from "node:child_process";
 import { userInfo } from "node:os";
+import { promisify } from "node:util";
 import Dict = NodeJS.Dict;
+
+const execFileAsync = promisify(execFile);
 
 const detectDefaultShell = () => {
   const { env } = process;
@@ -41,6 +44,11 @@ const env = {
   DISABLE_AUTO_UPDATE: "true",
 };
 
+const getExecOptions = () => ({
+  encoding: "utf8" as BufferEncoding,
+  env: { ...process.env, ...env },
+});
+
 const parseEnv = (env: string) => {
   env = env.split("_SHELL_ENV_DELIMITER_")[1];
   const returnValue = {};
@@ -59,8 +67,12 @@ export async function shellEnv(): Promise<Dict<string>> {
   }
 
   try {
-    const { stdout } = await execa(detectDefaultShell(), args, { env });
-    return parseEnv(stdout);
+    const { stdout } = await execFileAsync(
+      detectDefaultShell(),
+      args,
+      getExecOptions()
+    );
+    return parseEnv(stdout.toString());
   } catch (error) {
     return process.env;
   }
@@ -72,8 +84,8 @@ export function shellEnvSync(): Dict<string> {
   }
 
   try {
-    const { stdout } = execaSync(detectDefaultShell(), args, { env });
-    return parseEnv(stdout);
+    const stdout = execFileSync(detectDefaultShell(), args, getExecOptions());
+    return parseEnv(stdout.toString());
   } catch (error) {
     return process.env;
   }

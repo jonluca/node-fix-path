@@ -26,7 +26,7 @@ import { fixPath } from "node-fix-path";
 console.log(process.env.PATH);
 //=> '/usr/bin'
 
-fixPath();
+await fixPath();
 
 console.log(process.env.PATH);
 //=> '/usr/local/bin:/usr/bin'

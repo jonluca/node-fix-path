@@ -1,4 +1,5 @@
 import esbuild from "esbuild";
+import { writeFile } from "node:fs/promises";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 import { fileURLToPath } from "url";
@@ -58,3 +59,8 @@ for (const format of formats) {
     mainFields: ["module", "main"],
   });
 }
+
+await Promise.all([
+  writeFile(join(__dirname, "../dist/esm/package.json"), '{"type":"module"}\n'),
+  writeFile(join(__dirname, "../dist/cjs/package.json"), '{"type":"commonjs"}\n'),
+]);
